@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eno's Blog</title>
+<meta name="description" content="日々の日記と自作音楽を公開している個人ブログです。" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">Eno's Blog</a>
+    <nav class="main-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="diary.html">Diary</a>
+      <a href="music.html">Music</a>
+      <a
+        class="instagram-link"
+        href="https://www.instagram.com/eno9341/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+      >
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+        </svg>
+        <span>Instagram</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>こんにちは、Enoです。</h1>
+    <p>
+      日々の出来事を綴った日記と、趣味で作っている自作音楽をのんびり公開しています。
+      （このプロフィール文章はプレースホルダーです。自由に書き換えてください。）
+    </p>
+    <a
+      class="instagram-cta"
+      href="https://www.instagram.com/eno9341/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
+        <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+        <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+      </svg>
+      Instagramをフォローする
+    </a>
+  </section>
+
+  <section>
+    <div class="section-header">
+      <h2>最新の日記</h2>
+      <a href="diary.html">すべて見る &rarr;</a>
+    </div>
+    <div class="card-list" id="latest-diary">
+      <p class="state-message">読み込み中...</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header">
+      <h2>最新の音楽</h2>
+      <a href="music.html">すべて見る &rarr;</a>
+    </div>
+    <div class="card-list" id="latest-music">
+      <p class="state-message">読み込み中...</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  &copy; <span id="year"></span> Eno. All rights reserved.
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+<script src="js/home.js"></script>
+</body>
+</html>
