@@ -1,17 +1,35 @@
 [
   {
-    "title": "ブログをはじめました",
+    "title": {
+      "ja": "ブログをはじめました",
+      "en": "Starting this blog"
+    },
     "date": "2026-10-01",
-    "body": "このブログでは日々の出来事や考えたこと、そして自作の音楽を少しずつ公開していこうと思います。\n\n更新頻度はゆっくりめですが、よろしくお願いします。"
+    "body": {
+      "ja": "このブログでは日々の出来事や考えたこと、そして自作の音楽を少しずつ公開していこうと思います。\n\n更新頻度はゆっくりめですが、よろしくお願いします。",
+      "en": "On this blog, I plan to gradually share everyday happenings, things I've been thinking about, and the music I make.\n\nUpdates will be fairly slow, but I hope you'll enjoy following along."
+    }
   },
   {
-    "title": "最近のこと",
+    "title": {
+      "ja": "最近のこと",
+      "en": "Lately"
+    },
     "date": "2026-10-05",
-    "body": "ここ最近は新しい曲作りに時間を使っていました。まだ完成していませんが、形になったらこのブログでも紹介する予定です。\n\n写真はInstagramにも載せているので、よかったら覗いてみてください。"
+    "body": {
+      "ja": "ここ最近は新しい曲作りに時間を使っていました。まだ完成していませんが、形になったらこのブログでも紹介する予定です。\n\n写真はInstagramにも載せているので、よかったら覗いてみてください。",
+      "en": "I've been spending time lately working on a new song. It's not finished yet, but I plan to share it here once it takes shape.\n\nI also post photos on Instagram, so feel free to check that out too."
+    }
   },
   {
-    "title": "小さな発見",
+    "title": {
+      "ja": "小さな発見",
+      "en": "A small discovery"
+    },
     "date": "2026-10-10",
-    "body": "何気ない日常の中にも、ちょっとした発見があるものだなと感じた一日でした。<br><em>(これはHTMLタグを使った例です)</em>\n\n今日はこのくらいで。"
+    "body": {
+      "ja": "何気ない日常の中にも、ちょっとした発見があるものだなと感じた一日でした。<br><em>(これはHTMLタグを使った例です)</em>\n\n今日はこのくらいで。",
+      "en": "It was a day where I felt that even an ordinary day can hold a small discovery.<br><em>(This is an example using an HTML tag.)</em>\n\nThat's all for today."
+    }
   }
 ]

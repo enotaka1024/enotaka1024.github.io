@@ -1,6 +1,8 @@
 // 日記ページ: data/posts.json を読み込んで一覧表示する
 (function () {
   const container = document.getElementById("diary-list");
+  let postsCache = null;
+  let loadError = false;
 
   function escapeHtml(str) {
     return str
@@ -15,36 +17,49 @@
     return body.replace(/\n/g, "<br>");
   }
 
-  function formatDate(dateStr) {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString("ja-JP", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  }
+  function render() {
+    const lang = window.I18N.getLang();
 
-  function renderPosts(posts) {
-    if (!posts.length) {
-      container.innerHTML = '<p class="state-message">まだ日記がありません。</p>';
+    if (loadError) {
+      container.innerHTML = `<p class="state-message">${window.I18N.t(
+        "state.diaryError",
+        lang
+      )}</p>`;
       return;
     }
 
-    const sorted = [...posts].sort(
+    if (!postsCache) {
+      container.innerHTML = `<p class="state-message">${window.I18N.t(
+        "state.loading",
+        lang
+      )}</p>`;
+      return;
+    }
+
+    if (!postsCache.length) {
+      container.innerHTML = `<p class="state-message">${window.I18N.t(
+        "state.diaryEmpty",
+        lang
+      )}</p>`;
+      return;
+    }
+
+    const sorted = [...postsCache].sort(
       (a, b) => new Date(b.date) - new Date(a.date)
     );
 
     container.innerHTML = sorted
-      .map(
-        (post) => `
+      .map((post) => {
+        const title = window.I18N.pick(post.title, lang);
+        const body = window.I18N.pick(post.body, lang);
+        return `
         <article class="card">
-          <h3>${escapeHtml(post.title)}</h3>
-          <div class="meta">${formatDate(post.date)}</div>
-          <div class="body">${formatBody(post.body)}</div>
+          <h3>${escapeHtml(title)}</h3>
+          <div class="meta">${window.I18N.formatDate(post.date, lang)}</div>
+          <div class="body">${formatBody(body)}</div>
         </article>
-      `
-      )
+      `;
+      })
       .join("");
   }
 
@@ -53,10 +68,15 @@
       if (!res.ok) throw new Error("Failed to load posts.json");
       return res.json();
     })
-    .then(renderPosts)
+    .then((posts) => {
+      postsCache = posts;
+      render();
+    })
     .catch((err) => {
       console.error(err);
-      container.innerHTML =
-        '<p class="state-message">日記の読み込みに失敗しました。</p>';
+      loadError = true;
+      render();
     });
+
+  window.addEventListener("languagechange-app", render);
 })();

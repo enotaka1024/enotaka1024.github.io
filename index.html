@@ -7,14 +7,14 @@
 <meta name="description" content="日々の日記と自作音楽を公開している個人ブログです。" />
 <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body data-i18n-title="title.home" data-i18n-description="meta.description.home">
 <header class="site-header">
   <div class="header-inner">
     <a href="index.html" class="site-logo">Eno's Blog</a>
     <nav class="main-nav">
-      <a href="index.html" class="active">Home</a>
-      <a href="diary.html">Diary</a>
-      <a href="music.html">Music</a>
+      <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+      <a href="diary.html" data-i18n="nav.diary">Diary</a>
+      <a href="music.html" data-i18n="nav.music">Music</a>
       <a
         class="instagram-link"
         href="https://www.instagram.com/eno9341/"
@@ -27,16 +27,17 @@
           <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
           <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
         </svg>
-        <span>Instagram</span>
+        <span data-i18n="nav.instagram">Instagram</span>
       </a>
+      <button type="button" id="lang-toggle" class="lang-toggle">English</button>
     </nav>
   </div>
 </header>
 
 <main>
   <section class="hero">
-    <h1>こんにちは、Enoです。</h1>
-    <p>
+    <h1 data-i18n="hero.title">こんにちは、Enoです。</h1>
+    <p data-i18n="hero.body">
       日々の出来事を綴った日記と、趣味で作っている自作音楽をのんびり公開しています。
       （このプロフィール文章はプレースホルダーです。自由に書き換えてください。）
     </p>
@@ -51,38 +52,39 @@
         <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
         <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
       </svg>
-      Instagramをフォローする
+      <span data-i18n="hero.instagramCta">Instagramをフォローする</span>
     </a>
   </section>
 
   <section>
     <div class="section-header">
-      <h2>最新の日記</h2>
-      <a href="diary.html">すべて見る &rarr;</a>
+      <h2 data-i18n="section.latestDiary">最新の日記</h2>
+      <a href="diary.html" data-i18n="section.viewAll">すべて見る &rarr;</a>
     </div>
     <div class="card-list" id="latest-diary">
-      <p class="state-message">読み込み中...</p>
+      <p class="state-message" data-i18n="state.loading">読み込み中...</p>
     </div>
   </section>
 
   <section>
     <div class="section-header">
-      <h2>最新の音楽</h2>
-      <a href="music.html">すべて見る &rarr;</a>
+      <h2 data-i18n="section.latestMusic">最新の音楽</h2>
+      <a href="music.html" data-i18n="section.viewAll">すべて見る &rarr;</a>
     </div>
     <div class="card-list" id="latest-music">
-      <p class="state-message">読み込み中...</p>
+      <p class="state-message" data-i18n="state.loading">読み込み中...</p>
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
-  &copy; <span id="year"></span> Eno. All rights reserved.
+  &copy; <span id="year"></span> Eno. <span data-i18n="footer.rights">All rights reserved.</span>
 </footer>
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
+<script src="js/i18n.js"></script>
 <script src="js/home.js"></script>
 </body>
 </html>

@@ -114,6 +114,24 @@ img, svg {
   text-decoration: none;
 }
 
+.lang-toggle {
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.lang-toggle:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
 /* ---------- Layout ---------- */
 
 main {

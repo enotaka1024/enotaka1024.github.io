@@ -1,15 +1,27 @@
 [
   {
-    "title": "Sample Track (Local Placeholder)",
+    "title": {
+      "ja": "Sample Track (Local Placeholder)",
+      "en": "Sample Track (Local Placeholder)"
+    },
     "date": "2026-10-08",
-    "description": "ローカル音声ファイルを再生するサンプルです。assets/audio/ に実際の音源を置いて src を差し替えてください。",
+    "description": {
+      "ja": "ローカル音声ファイルを再生するサンプルです。assets/audio/ に実際の音源を置いて src を差し替えてください。",
+      "en": "A sample that plays a local audio file. Place your actual audio in assets/audio/ and update src accordingly."
+    },
     "type": "local",
     "src": "assets/audio/sample-track.mp3"
   },
   {
-    "title": "Sample Track (Embed Placeholder)",
+    "title": {
+      "ja": "Sample Track (Embed Placeholder)",
+      "en": "Sample Track (Embed Placeholder)"
+    },
     "date": "2026-10-12",
-    "description": "SoundCloudやYouTubeなど外部サービスの埋め込みプレイヤーのサンプルです。embedUrl を実際の埋め込みURLに差し替えてください。",
+    "description": {
+      "ja": "SoundCloudやYouTubeなど外部サービスの埋め込みプレイヤーのサンプルです。embedUrl を実際の埋め込みURLに差し替えてください。",
+      "en": "A sample embedded player for external services like SoundCloud or YouTube. Replace embedUrl with your actual embed URL."
+    },
     "type": "embed",
     "embedUrl": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/your-account/your-track"
   }
