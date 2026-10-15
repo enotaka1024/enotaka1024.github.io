@@ -3,6 +3,9 @@
   const diaryContainer = document.getElementById("latest-diary");
   const musicContainer = document.getElementById("latest-music");
 
+  let postsCache = null;
+  let tracksCache = null;
+
   function escapeHtml(str) {
     return String(str || "")
       .replace(/&/g, "&amp;")
@@ -10,78 +13,101 @@
       .replace(/>/g, "&gt;");
   }
 
-  function formatDate(dateStr) {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString("ja-JP", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  }
-
   function excerpt(body, length) {
     const plain = String(body || "").replace(/<[^>]*>/g, " ").replace(/\n/g, " ");
     return plain.length > length ? plain.slice(0, length) + "…" : plain;
+  }
+
+  function renderDiary() {
+    const lang = window.I18N.getLang();
+    if (!postsCache) return;
+    if (!postsCache.length) {
+      diaryContainer.innerHTML = `<p class="state-message">${window.I18N.t(
+        "state.diaryEmpty",
+        lang
+      )}</p>`;
+      return;
+    }
+    const latest = [...postsCache]
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 2);
+
+    diaryContainer.innerHTML = latest
+      .map((post) => {
+        const title = window.I18N.pick(post.title, lang);
+        const body = window.I18N.pick(post.body, lang);
+        return `
+          <article class="card">
+            <h3>${escapeHtml(title)}</h3>
+            <div class="meta">${window.I18N.formatDate(post.date, lang)}</div>
+            <p class="excerpt">${escapeHtml(excerpt(body, 60))}</p>
+          </article>
+        `;
+      })
+      .join("");
+  }
+
+  function renderMusic() {
+    const lang = window.I18N.getLang();
+    if (!tracksCache) return;
+    if (!tracksCache.length) {
+      musicContainer.innerHTML = `<p class="state-message">${window.I18N.t(
+        "state.musicEmpty",
+        lang
+      )}</p>`;
+      return;
+    }
+    const latest = [...tracksCache]
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 2);
+
+    musicContainer.innerHTML = latest
+      .map((track) => {
+        const title = window.I18N.pick(track.title, lang);
+        const description = window.I18N.pick(track.description, lang);
+        return `
+          <article class="card">
+            <h3>${escapeHtml(title)}</h3>
+            <div class="meta">${window.I18N.formatDate(track.date, lang)}</div>
+            <p class="excerpt">${escapeHtml(description)}</p>
+          </article>
+        `;
+      })
+      .join("");
   }
 
   // 最新の日記を2件プレビュー表示
   fetch("data/posts.json")
     .then((res) => (res.ok ? res.json() : []))
     .then((posts) => {
-      if (!posts.length) {
-        diaryContainer.innerHTML =
-          '<p class="state-message">まだ日記がありません。</p>';
-        return;
-      }
-      const latest = [...posts]
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 2);
-
-      diaryContainer.innerHTML = latest
-        .map(
-          (post) => `
-          <article class="card">
-            <h3>${escapeHtml(post.title)}</h3>
-            <div class="meta">${formatDate(post.date)}</div>
-            <p class="excerpt">${escapeHtml(excerpt(post.body, 60))}</p>
-          </article>
-        `
-        )
-        .join("");
+      postsCache = posts;
+      renderDiary();
     })
     .catch(() => {
-      diaryContainer.innerHTML =
-        '<p class="state-message">日記の読み込みに失敗しました。</p>';
+      const lang = window.I18N.getLang();
+      diaryContainer.innerHTML = `<p class="state-message">${window.I18N.t(
+        "state.diaryError",
+        lang
+      )}</p>`;
     });
 
   // 最新の音楽トラックを2件プレビュー表示
   fetch("data/tracks.json")
     .then((res) => (res.ok ? res.json() : []))
     .then((tracks) => {
-      if (!tracks.length) {
-        musicContainer.innerHTML =
-          '<p class="state-message">まだ公開中の曲がありません。</p>';
-        return;
-      }
-      const latest = [...tracks]
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 2);
-
-      musicContainer.innerHTML = latest
-        .map(
-          (track) => `
-          <article class="card">
-            <h3>${escapeHtml(track.title)}</h3>
-            <div class="meta">${formatDate(track.date)}</div>
-            <p class="excerpt">${escapeHtml(track.description || "")}</p>
-          </article>
-        `
-        )
-        .join("");
+      tracksCache = tracks;
+      renderMusic();
     })
     .catch(() => {
-      musicContainer.innerHTML =
-        '<p class="state-message">音楽の読み込みに失敗しました。</p>';
+      const lang = window.I18N.getLang();
+      musicContainer.innerHTML = `<p class="state-message">${window.I18N.t(
+        "state.musicError",
+        lang
+      )}</p>`;
     });
+
+  window.addEventListener("languagechange-app", () => {
+    renderDiary();
+    renderMusic();
+  });
 })();

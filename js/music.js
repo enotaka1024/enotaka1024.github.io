@@ -1,6 +1,8 @@
 // 音楽ページ: data/tracks.json を読み込んで一覧表示する
 (function () {
   const container = document.getElementById("music-list");
+  let tracksCache = null;
+  let loadError = false;
 
   function escapeHtml(str) {
     return String(str || "")
@@ -9,22 +11,14 @@
       .replace(/>/g, "&gt;");
   }
 
-  function formatDate(dateStr) {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString("ja-JP", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  }
+  function renderPlayer(track, lang) {
+    const title = window.I18N.pick(track.title, lang);
 
-  function renderPlayer(track) {
     if (track.type === "local") {
       return `
         <audio controls preload="none">
           <source src="${escapeHtml(track.src)}" />
-          お使いのブラウザは audio タグに対応していません。
+          ${window.I18N.t("player.audioUnsupported", lang)}
         </audio>
       `;
     }
@@ -37,39 +31,65 @@
             height="166"
             allow="autoplay"
             loading="lazy"
-            title="${escapeHtml(track.title)}"
+            title="${escapeHtml(title)}"
           ></iframe>
         </div>
       `;
     }
 
-    return '<p class="state-message">対応していないトラック形式です。</p>';
+    return `<p class="state-message">${window.I18N.t(
+      "state.unsupportedTrack",
+      lang
+    )}</p>`;
   }
 
-  function renderTracks(tracks) {
-    if (!tracks.length) {
-      container.innerHTML = '<p class="state-message">まだ公開中の曲がありません。</p>';
+  function render() {
+    const lang = window.I18N.getLang();
+
+    if (loadError) {
+      container.innerHTML = `<p class="state-message">${window.I18N.t(
+        "state.musicError",
+        lang
+      )}</p>`;
       return;
     }
 
-    const sorted = [...tracks].sort(
+    if (!tracksCache) {
+      container.innerHTML = `<p class="state-message">${window.I18N.t(
+        "state.loading",
+        lang
+      )}</p>`;
+      return;
+    }
+
+    if (!tracksCache.length) {
+      container.innerHTML = `<p class="state-message">${window.I18N.t(
+        "state.musicEmpty",
+        lang
+      )}</p>`;
+      return;
+    }
+
+    const sorted = [...tracksCache].sort(
       (a, b) => new Date(b.date) - new Date(a.date)
     );
 
     container.innerHTML = sorted
-      .map(
-        (track) => `
+      .map((track) => {
+        const title = window.I18N.pick(track.title, lang);
+        const description = window.I18N.pick(track.description, lang);
+        return `
         <article class="track">
-          <h3>${escapeHtml(track.title)}</h3>
+          <h3>${escapeHtml(title)}</h3>
           <div class="meta">
-            ${formatDate(track.date)}${
-          track.description ? " ・ " + escapeHtml(track.description) : ""
+            ${window.I18N.formatDate(track.date, lang)}${
+          description ? " ・ " + escapeHtml(description) : ""
         }
           </div>
-          ${renderPlayer(track)}
+          ${renderPlayer(track, lang)}
         </article>
-      `
-      )
+      `;
+      })
       .join("");
   }
 
@@ -78,10 +98,15 @@
       if (!res.ok) throw new Error("Failed to load tracks.json");
       return res.json();
     })
-    .then(renderTracks)
+    .then((tracks) => {
+      tracksCache = tracks;
+      render();
+    })
     .catch((err) => {
       console.error(err);
-      container.innerHTML =
-        '<p class="state-message">音楽の読み込みに失敗しました。</p>';
+      loadError = true;
+      render();
     });
+
+  window.addEventListener("languagechange-app", render);
 })();
