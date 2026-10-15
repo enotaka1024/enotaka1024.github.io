@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Music | Eno's Blog</title>
+<meta name="description" content="自作音楽の一覧です。" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="site-logo">Eno's Blog</a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="diary.html">Diary</a>
+      <a href="music.html" class="active">Music</a>
+      <a
+        class="instagram-link"
+        href="https://www.instagram.com/eno9341/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+      >
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+        </svg>
+        <span>Instagram</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="section-header">
+      <h2>Music</h2>
+    </div>
+    <div class="card-list" id="music-list">
+      <p class="state-message">読み込み中...</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  &copy; <span id="year"></span> Eno. All rights reserved.
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+<script src="js/music.js"></script>
+</body>
+</html>
